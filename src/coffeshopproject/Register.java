@@ -3,6 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package coffeshopproject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import javax.swing.JOptionPane;
+import coffeshopproject.PasswordHelper;
+import javax.swing.JTextField;
+
+
+
 
 /**
  *
@@ -11,12 +24,22 @@ package coffeshopproject;
 public class Register extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Register.class.getName());
+    private String no_hp;
 
     /**
      * Creates new form Register
      */
     public Register() {
         initComponents();
+        setSize(360, 520);
+        setLocationRelativeTo(null);
+        
+        setPlaceholder(txtNama, "Nama");
+        setPlaceholder(txtEmail, "Email");
+        setPlaceholder(txtnomerhape, "Nomor");
+        setPlaceholder(txtTanggal_lahir, "Tanggal Lahir");
+        setPlaceholderPassword(txtPassword, "Password");
+        
     }
 
     /**
@@ -28,17 +51,19 @@ public class Register extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        txtNama = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtnomerhape = new javax.swing.JTextField();
+        txtTanggal_lahir = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+
+        jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -49,7 +74,7 @@ public class Register extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -57,7 +82,7 @@ public class Register extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 360, 50);
+        jPanel1.setBounds(0, 0, 400, 50);
 
         jPanel2.setBackground(new java.awt.Color(239, 217, 193));
         jPanel2.setToolTipText("");
@@ -74,10 +99,24 @@ public class Register extends javax.swing.JFrame {
         jLabel2.setText("Create an account, in here! ");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Name");
-        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        txtNama.setToolTipText("");
+        txtNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNamaActionPerformed(evt);
+            }
+        });
+
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+
+        txtTanggal_lahir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTanggal_lahirActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(212, 163, 115));
         jButton1.setText("SIGN IN");
@@ -87,47 +126,34 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Email");
-        jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Password");
-        jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(104, 104, 104))))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(89, 89, 89)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField1)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
-                    .addGap(33, 33, 33)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtnomerhape, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTanggal_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(304, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel2)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,35 +162,93 @@ public class Register extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(52, 52, 52)
-                .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(36, 36, 36)
+                .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtnomerhape, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTanggal_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(158, 158, 158)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(52, 52, 52)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(181, Short.MAX_VALUE)))
+                .addGap(36, 36, 36))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 50, 360, 470);
+        jPanel2.setBounds(0, 50, 610, 480);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+                                    
+    String nama = txtNama.getText().trim();
+    String email = txtEmail.getText().trim();
+    String nohp = txtnomerhape.getText().trim();
+    String tanggal_lahir = txtTanggal_lahir.getText().trim();
+    String password = new String(txtPassword.getPassword()).trim();
+
+    if (nama.isEmpty() || email.isEmpty() || nohp.isEmpty() || tanggal_lahir.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        Connection conn = Koneksi.getKoneksi();
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Koneksi database gagal!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // cek apakah email sudah ada
+        String cekSql = "SELECT COUNT(*) FROM pengguna WHERE email = ?";
+        try (PreparedStatement cek = conn.prepareStatement(cekSql)) {
+            cek.setString(1, email);
+            try (ResultSet rs = cek.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    JOptionPane.showMessageDialog(this, "Email sudah terdaftar!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+        }
+
+        // hash password (SHA-256) — lebih aman daripada menyimpan plain text
+        String hashedPassword = PasswordHelper.hashPassword(password);
+
+
+        String sql = "INSERT INTO pengguna (nama, email, no_hp, tanggal_lahir, password) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, nama);
+            pst.setString(2, email);
+            pst.setString(3, no_hp);
+            pst.setString(4, tanggal_lahir);
+            pst.setString(5, hashedPassword);
+            pst.executeUpdate();
+        }
+
+        JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silakan login.");
+        new Login().setVisible(true);
+        this.dispose();
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtTanggal_lahirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggal_lahirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTanggal_lahirActionPerformed
+
+    private void txtNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNamaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,15 +277,69 @@ public class Register extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNama;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtTanggal_lahir;
+    private javax.swing.JTextField txtnomerhape;
     // End of variables declaration//GEN-END:variables
+                 
+    // === Fungsi Placeholder untuk JTextField ===
+    private void setPlaceholder(javax.swing.JTextField field, String placeholder) {
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                }
+            }
+        });
+    }
+
+    // === Fungsi Placeholder khusus untuk PasswordField ===
+    private void setPlaceholderPassword(javax.swing.JPasswordField field, String placeholder) {
+        field.setEchoChar((char) 0);
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                String pass = new String(field.getPassword());
+                if (pass.equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                    field.setEchoChar('•');
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                String pass = new String(field.getPassword());
+                if (pass.isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                    field.setEchoChar((char) 0);
+                }
+            }
+        });
+    }
+
 }

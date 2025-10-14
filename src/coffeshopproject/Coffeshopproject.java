@@ -8,13 +8,47 @@ package coffeshopproject;
  *
  * @author Ryzen
  */
-public class Coffeshopproject {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+
+public class Coffeshopproject {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/db_coffeeshop";
+        String user = "root";
+        String pass = ""; // isi password MySQL kamu kalau ada
+
+        try {
+            // load driver MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // buat koneksi
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            System.out.println("✅ Koneksi BERHASIL!");
+            System.out.println("Koneksi:" +conn);
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("❌ Driver tidak ditemukan: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("❌ Koneksi GAGAL: " + e.getMessage());
+        }
+    }
+}
+    
+       
+
+
+    
+    
+
+    
     /**
      * @param args the command line arguments
+     * @throws java.lang.ClassNotFoundException
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
-}
+   
+        
+       
+
+

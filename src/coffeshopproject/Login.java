@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package coffeshopproject;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import coffeshopproject.PasswordHelper;
 
 /**
  *
@@ -11,13 +17,17 @@ package coffeshopproject;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        setSize(360, 520);
+        setLocationRelativeTo(null);
     }
+    
+   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +66,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Username");
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Password");
@@ -72,6 +87,11 @@ public class Login extends javax.swing.JFrame {
 
         jButton3.setBackground(new java.awt.Color(212, 163, 115));
         jButton3.setText("REGISTER");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,11 +114,11 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(88, 88, 88))
         );
@@ -123,7 +143,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 50, 358, 520);
+        jPanel1.setBounds(0, 50, 357, 520);
 
         jPanel2.setBackground(new java.awt.Color(212, 163, 115));
 
@@ -145,8 +165,62 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+                                        
+    String email = jTextField1.getText().trim();
+    String passwordInput = new String(jPasswordField1.getPassword()).trim();
+
+    if (email.isEmpty() || passwordInput.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Email dan password tidak boleh kosong!");
+        return;
+    }
+
+    try {
+        Connection conn = Koneksi.getKoneksi();
+        String sql = "SELECT password FROM pengguna WHERE email = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            String hashedPassword = rs.getString("password");
+
+            if (PasswordHelper.checkPassword(passwordInput, hashedPassword)) {
+        JOptionPane.showMessageDialog(this, "Login berhasil!");
+
+    // Simpan email pengguna yang login
+    String emailLogin = email;
+
+    // Tutup form login
+    this.dispose();
+
+    // Buka halaman profil pelanggan, kirim email ke constructor
+    new Profil_pelanggan(emailLogin).setVisible(true);
+
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Email tidak ditemukan!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+        }
+
+        ps.close();
+        rs.close();
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        new Register().setVisible(true); // buka form Register
+        this.dispose(); // tutup form login
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
