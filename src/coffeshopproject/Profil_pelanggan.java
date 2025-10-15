@@ -7,6 +7,11 @@ package coffeshopproject;
 
 import java.sql.*;
 import javax.swing.*;
+import java.io.File;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+
 
     
 
@@ -20,9 +25,15 @@ public class Profil_pelanggan extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Profil_pelanggan.class.getName());
     private String emailPengguna;
-    private String email;
+    private String selectedImagePath = null;
 
-    
+
+    public Profil_pelanggan() {
+        initComponents();
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setTitle("Profil Pelanggan");
+}
     public Profil_pelanggan(String email) {
         initComponents();
         setSize(800, 600);              // atur ukuran form
@@ -52,7 +63,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
             if (rs.next()) {
                 lblNama.setText(rs.getString("nama"));
                 lblEmail.setText("Email: " + rs.getString("email"));
-                lblPhone.setText("No HP: " + rs.getString("no_hp"));
+                lblno_hp.setText("No HP: " + rs.getString("no_hp"));
             } else {
                 JOptionPane.showMessageDialog(this, "Data pengguna tidak ditemukan.");
             }
@@ -94,11 +105,14 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         lblNama = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblEmail = new javax.swing.JLabel();
-        lblPhone = new javax.swing.JLabel();
+        lblno_hp = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnpilihfoto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(239, 217, 193));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(212, 163, 115));
@@ -107,7 +121,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,18 +129,20 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 400, 40);
+        jPanel1.setBounds(0, 0, 800, 40);
 
         jPanel2.setBackground(new java.awt.Color(239, 217, 193));
 
-        lblAvatar.setText("lblAvatar");
+        lblAvatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAvatar.setText("tambahkan foto");
+        lblAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblNama.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblNama.setText("Nama");
 
         lblEmail.setText("email");
 
-        lblPhone.setText("no hp");
+        lblno_hp.setText("no hp");
 
         jButton1.setLabel("LogOut");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -135,50 +151,61 @@ public class Profil_pelanggan extends javax.swing.JFrame {
             }
         });
 
+        btnpilihfoto.setText("PILIH FOTO");
+        btnpilihfoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpilihfotoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(170, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnpilihfoto)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(lblPhone))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(131, 317, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblAvatar)
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNama)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblEmail)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
-                .addContainerGap())
+                            .addComponent(lblno_hp)
+                            .addComponent(lblEmail))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnpilihfoto)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(lblAvatar))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)))
-                .addGap(64, 64, 64)
-                .addComponent(lblNama)
-                .addGap(32, 32, 32)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPhone)
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addComponent(lblNama)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblno_hp)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblEmail)
+                        .addGap(39, 39, 39)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 40, 400, 300);
+        jPanel2.setBounds(0, 40, 800, 630);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -195,6 +222,30 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnpilihfotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpilihfotoActionPerformed
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Pilih Foto Profil");
+
+    // Hanya izinkan file gambar
+    fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+        "Gambar", "jpg", "png", "jpeg", "gif"
+    ));
+
+    int result = fileChooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        String filePath = file.getAbsolutePath();
+
+        // Tampilkan gambar di JLabel lblAvatar
+        ImageIcon icon = new ImageIcon(filePath);
+        Image img = icon.getImage().getScaledInstance(lblAvatar.getWidth(), lblAvatar.getHeight(), Image.SCALE_SMOOTH);
+        lblAvatar.setIcon(new ImageIcon(img));
+
+        // Simpan path gambar ke variabel (bisa disimpan ke database nanti)
+        selectedImagePath = filePath;
+    }
+    }//GEN-LAST:event_btnpilihfotoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -204,6 +255,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnpilihfoto;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -211,7 +263,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
     private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNama;
-    private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblno_hp;
     // End of variables declaration//GEN-END:variables
     }
     

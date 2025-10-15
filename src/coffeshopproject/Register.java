@@ -223,7 +223,7 @@ public class Register extends javax.swing.JFrame {
         try (PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, nama);
             pst.setString(2, email);
-            pst.setString(3, no_hp);
+            pst.setString(3, nohp);
             pst.setString(4, tanggal_lahir);
             pst.setString(5, hashedPassword);
             pst.executeUpdate();
