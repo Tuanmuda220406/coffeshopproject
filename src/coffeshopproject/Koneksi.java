@@ -22,8 +22,8 @@ public class Koneksi {
                 String url = "jdbc:mysql://localhost:3306/db_coffeeshop?useSSL=false&serverTimezone=UTC";
                 String user = "root";
                 String pass = ""; // biasanya Laragon default blank
+                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
                 conn = DriverManager.getConnection(url, user, pass);
-                System.out.println("Koneksi Berhasil");
             } catch (SQLException e) {
                 System.err.println("Koneksi Gagal: " + e.getMessage());
             }

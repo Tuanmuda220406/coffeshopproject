@@ -55,10 +55,10 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(239, 217, 193));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(75, 46, 43));
+        jLabel1.setForeground(new java.awt.Color(255, 215, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("WELCOME");
 
@@ -77,7 +77,8 @@ public class Login extends javax.swing.JFrame {
 
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(212, 163, 115));
+        jButton1.setBackground(new java.awt.Color(28, 28, 100));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("LOGIN");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +86,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(212, 163, 115));
+        jButton3.setBackground(new java.awt.Color(28, 28, 100));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("REGISTER");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +147,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 50, 357, 520);
 
-        jPanel2.setBackground(new java.awt.Color(212, 163, 115));
+        jPanel2.setBackground(new java.awt.Color(28, 28, 100));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -165,50 +167,42 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                                        
-    String email = jTextField1.getText().trim();
-    String passwordInput = new String(jPasswordField1.getPassword()).trim();
-
-    if (email.isEmpty() || passwordInput.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Email dan password tidak boleh kosong!");
-        return;
-    }
-
+                                       
     try {
         Connection conn = Koneksi.getKoneksi();
-        String sql = "SELECT password FROM pengguna WHERE email = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, email);
-        ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            String hashedPassword = rs.getString("password");
+        // 🔹 Coba cari di tabel pengguna dulu
+        String sqlPengguna = "SELECT * FROM pengguna WHERE email=? AND password=?";
+        PreparedStatement pstPengguna = conn.prepareStatement(sqlPengguna);
+        pstPengguna.setString(1, jTextField1.getText());
+        pstPengguna.setString(2, jPasswordField1.getText());
+        ResultSet rsPengguna = pstPengguna.executeQuery();
 
-            if (PasswordHelper.checkPassword(passwordInput, hashedPassword)) {
-        JOptionPane.showMessageDialog(this, "Login berhasil!");
-
-    // Simpan email pengguna yang login
-    String emailLogin = email;
-
-    // Tutup form login
-    this.dispose();
-
-    // Buka halaman profil pelanggan, kirim email ke constructor
-    new Profil_pelanggan(emailLogin).setVisible(true);
-
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Password salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
-            }
+        if (rsPengguna.next()) {
+            // kalau ketemu di tabel pengguna → buka profil pengguna
+            JOptionPane.showMessageDialog(null, "Login berhasil sebagai pengguna!");
+            new Profil_pelanggan(rsPengguna.getString("email")).setVisible(true);
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Email tidak ditemukan!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            // kalau tidak ketemu → cek ke tabel users
+            Connection conn2 = Koneksi.getKoneksi(); // 🔹 ambil koneksi baru
+            String sqlUsers = "SELECT * FROM users WHERE email=? AND password=?";
+            PreparedStatement pstUsers = conn2.prepareStatement(sqlUsers);
+            pstUsers.setString(1, jTextField1.getText());
+            pstUsers.setString(2, jPasswordField1.getText());
+            ResultSet rsUsers = pstUsers.executeQuery();
+
+            if (rsUsers.next()) {
+                JOptionPane.showMessageDialog(null, "Login berhasil sebagai admin!");
+                new halaman_admin(rsUsers.getString("email")).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Email atau password salah!");
+            }
         }
 
-        ps.close();
-        rs.close();
-
     } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Terjadi kesalahan koneksi: " + e.getMessage());
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 

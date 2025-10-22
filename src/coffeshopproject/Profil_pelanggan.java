@@ -55,7 +55,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
             // koneksi ke database
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_coffeeshop", "root", "");
             
-            String sql = "SELECT nama, email, no_hp FROM pengguna WHERE email = ?";
+            String sql = "SELECT nama, email, no_hp, tanggal_lahir FROM pengguna WHERE email = ?";
             pst = conn.prepareStatement(sql);
             pst.setString(1, emailPengguna);
             rs = pst.executeQuery();
@@ -64,6 +64,7 @@ public class Profil_pelanggan extends javax.swing.JFrame {
                 lblNama.setText(rs.getString("nama"));
                 lblEmail.setText("Email: " + rs.getString("email"));
                 lblno_hp.setText("No HP: " + rs.getString("no_hp"));
+                tanggal_lahir.setText("Tanggal_lahir: " + rs.getDate("tanggal_lahir"));
             } else {
                 JOptionPane.showMessageDialog(this, "Data pengguna tidak ditemukan.");
             }
@@ -103,19 +104,18 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblAvatar = new javax.swing.JLabel();
         lblNama = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         lblEmail = new javax.swing.JLabel();
         lblno_hp = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         btnpilihfoto = new javax.swing.JButton();
+        tanggal_lahir = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(239, 217, 193));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(212, 163, 115));
+        jPanel1.setBackground(new java.awt.Color(28, 28, 100));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,19 +131,22 @@ public class Profil_pelanggan extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 800, 40);
 
-        jPanel2.setBackground(new java.awt.Color(239, 217, 193));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         lblAvatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAvatar.setText("tambahkan foto");
-        lblAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblAvatar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 215, 0)));
 
         lblNama.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblNama.setForeground(new java.awt.Color(255, 215, 0));
         lblNama.setText("Nama");
 
         lblEmail.setText("email");
 
         lblno_hp.setText("no hp");
 
+        jButton1.setBackground(new java.awt.Color(255, 0, 0));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setLabel("LogOut");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,30 +161,33 @@ public class Profil_pelanggan extends javax.swing.JFrame {
             }
         });
 
+        tanggal_lahir.setText("tanggal lahir");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addComponent(btnpilihfoto)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(131, 317, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addComponent(lblNama))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(38, 38, 38)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNama)
                             .addComponent(lblno_hp)
-                            .addComponent(lblEmail))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(lblEmail)
+                            .addComponent(tanggal_lahir))))
+                .addGap(37, 302, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,22 +196,22 @@ public class Profil_pelanggan extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnpilihfoto)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblNama)
-                        .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
                         .addComponent(lblno_hp)
                         .addGap(18, 18, 18)
                         .addComponent(lblEmail)
-                        .addGap(39, 39, 39)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(tanggal_lahir))
+                    .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 40, 800, 630);
+        jPanel2.setBounds(0, 40, 800, 580);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -259,11 +265,11 @@ public class Profil_pelanggan extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAvatar;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNama;
     private javax.swing.JLabel lblno_hp;
+    private javax.swing.JLabel tanggal_lahir;
     // End of variables declaration//GEN-END:variables
     }
     
